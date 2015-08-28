@@ -18,15 +18,16 @@
 			<span class="home"><a href="/cartservice/">Shoppers Zone</a></span>
 			<div class="login">
 				<c:choose>
-					<c:when test="${user == null}">
+					<c:when test="${currentUser == null}">
 						<a href="/cartservice/login">Log In</a>
 						<a href="/cartservice/signup">Sign Up</a>
 					</c:when>
 					<c:otherwise>
-        	${user.getFirstName()} ${user.getLastName()}
-        	<a href="logout">Logout</a>
+        	<a href="">${currentUser.getFirstName()} ${currentUser.getLastName()}</a>
+        	<a href="/cartservice/logout">Logout</a>
 					</c:otherwise>
 				</c:choose>
+				<a href="/cartservice/cart">Cart</a><br> <br>
 			</div>
 		</div>
 	</header>

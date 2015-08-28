@@ -7,10 +7,32 @@
 
 <html>
 <head>
+<spring:url value="/resources/css/myorders.css" var="mainCss" />
+<link href="${mainCss}" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+<header>
+		<div class="container">
+			<span class="home"><a href="/cartservice/">Shoppers Zone</a></span>
+			<div class="login">
+				<c:choose>
+					<c:when test="${currentUser == null}">
+						<a href="/cartservice/login">Log In</a>
+						<a href="/cartservice/signup">Sign Up</a>
+					</c:when>
+					<c:otherwise>
+        	<a href="">${currentUser.getFirstName()} ${currentUser.getLastName()}</a>
+        	<a href="/cartservice/logout">Logout</a>
+					</c:otherwise>
+				</c:choose>
+				<a href="/cartservice/cart">Cart</a><br> <br>
+			</div>
+		</div>
+	</header>
+	<div class ="container">
+	<div class ="shift">
 	<c:choose>
 		<c:when test="${orders.size()==0}">
 			<H1>No orders</H1>
@@ -39,9 +61,10 @@
 					</c:forEach>
 					</tbody>
 				</table>
-				<input type="submit" value="Go to home" class="btn btn-large btn-block btn-inverse">
 			</form:form>
 		</c:otherwise>
 	</c:choose>
+	</div>
+	</div>
 </body>
 </html>

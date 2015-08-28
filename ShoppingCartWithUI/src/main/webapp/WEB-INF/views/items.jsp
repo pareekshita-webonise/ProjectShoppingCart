@@ -40,7 +40,7 @@
 					</c:when>
 					<c:otherwise>
         				<a href="">${currentUser.getFirstName()} ${currentUser.getLastName()}</a>
-        				<a href="logout">Logout</a>
+        				<a href="/cartservice/logout">Logout</a>
 					</c:otherwise>
 				</c:choose>
 				<a href="/cartservice/cart">Cart</a><br> <br>

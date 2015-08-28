@@ -21,7 +21,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
+	@ModelAttribute("currentUser")
+	public User getCurrentUser()
+	{
+		return userService.getUserDao().getCurrentUser();
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLogin(Model model) {
