@@ -9,4 +9,6 @@ public interface UserDao {
 	public void saveUser(User user);
 
 	public User findByUserName(String username);
+
+	public void updateUser(User user);
 }

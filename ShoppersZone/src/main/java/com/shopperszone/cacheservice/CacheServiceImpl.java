@@ -35,7 +35,6 @@ public class CacheServiceImpl implements CacheService {
 	@Override
 	public void update(final CachableObject CachableObject) {
 		LOG.debug("Updating object for key: {}", CachableObject.getKey());
-
 	}
 
 	@Override

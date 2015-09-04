@@ -35,4 +35,8 @@ public class OrderServiceImpl implements OrderService {
 		return myOrders;
 	}
 
+	public void setOrderDao(OrderDao mockOrderDao) {
+		this.orderDao = mockOrderDao;
+	}
+
 }

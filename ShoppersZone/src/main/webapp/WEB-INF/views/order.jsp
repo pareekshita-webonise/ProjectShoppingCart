@@ -11,7 +11,7 @@
 <spring:url value="/resources/css/order.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>add to cart</title>
+<title>Order</title>
 <script>
 		function formSubmit() {
 			document.getElementById("logoutForm").submit();
@@ -52,8 +52,11 @@
 				<td colspan="2">Username :- ${order.getUser().getFirstName()}
 					${order.getUser().getLastName()}</td>
 			</tr>
+			<tr>
+				<td colspan="8">Shipping Address :- ${order.getUser().getAddress()}</td>
+			</tr>
 		</table>
-		<table border="1">
+		<table border="1" class="names">
 			<thead>
 				<tr>
 				<th>Item ID</th>

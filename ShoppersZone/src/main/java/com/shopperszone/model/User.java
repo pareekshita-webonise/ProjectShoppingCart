@@ -43,7 +43,7 @@ public class User implements Serializable {
 	private String address;
 
 	@Column(name = "contact_no")
-	private int contactNo;
+	private long contactNo;
 
 	@Column(name = "enabled")
 	private boolean enabled;
@@ -99,11 +99,11 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public int getContactNo() {
+	public long getContactNo() {
 		return contactNo;
 	}
 
-	public void setContactNo(int contactNo) {
+	public void setContactNo(long contactNo) {
 		this.contactNo = contactNo;
 	}
 

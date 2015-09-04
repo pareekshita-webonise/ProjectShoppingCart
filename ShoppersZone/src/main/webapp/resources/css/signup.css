@@ -38,6 +38,7 @@ header{
 	margin-left:300px;
 	margin-bottom:10px;
 }
+
 .btn.btn-large {
 	margin-top:10px;
 	font-size: 1.14em;
@@ -62,4 +63,8 @@ header{
 }
 .btn.btn-inverse:hover {
 	background-color: #343434;
+}
+
+p{
+	margin-left:300px;
 }

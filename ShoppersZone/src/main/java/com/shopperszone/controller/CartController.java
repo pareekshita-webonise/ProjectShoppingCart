@@ -59,7 +59,21 @@ public class CartController {
 		Order order = orderService.placeOrder(user, cartItems);
 		session.setAttribute("myCart", null);
 		model.addAttribute("order", order);
-		//return "redirect:/order";
 		return "order";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/deleteItems", method = RequestMethod.POST)
+	public String deleteItems(Model model, HttpServletRequest request, @RequestParam int[] items) {
+		HttpSession session = request.getSession();
+		
+		List<Item> cartItems = (List<Item>) session.getAttribute("myCart");
+		if (cartItems == null) {
+			cartItems = new ArrayList<Item>();
+		}
+		itemService.deleteItemsFromCart(cartItems, items);
+		session.setAttribute("myCart", cartItems);
+		String referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
 }

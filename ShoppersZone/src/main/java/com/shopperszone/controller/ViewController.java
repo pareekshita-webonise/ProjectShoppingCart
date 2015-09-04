@@ -1,4 +1,5 @@
 package com.shopperszone.controller;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,28 +27,25 @@ import com.shopperszone.service.UserService;
 @Controller
 public class ViewController {
 
-	//private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
-	
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	ItemService itemService;
-	
+
 	@Autowired
 	OrderService orderService;
-	
+
 	@Autowired
 	CacheService cacheService;
-		
+
 	@RequestMapping(value = { "/", "/home" })
 	public String getHomePage(Model model) {
 		List<String> categories = itemService.getAllCategories();
-		System.out.println(categories.size());
 		model.addAttribute("categories", categories);
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/items", method = RequestMethod.GET)
 	public String displayItems(Locale locale, Model model) {
 		List<Item> items = itemService.getAllItems();
@@ -65,20 +63,19 @@ public class ViewController {
 		model.addAttribute("items", items);
 		return "items";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/cart", method = RequestMethod.GET)
 	public String displayCart(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		List<Item> cartItems = (List<Item>) session.getAttribute("myCart");
-		if(cartItems==null)
-		{
+		if (cartItems == null) {
 			cartItems = new ArrayList<Item>();
 		}
 		model.addAttribute("items", cartItems);
 		return "cart";
 	}
-	
+
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	public String displayOrders(Model model, RedirectAttributes redirect) {
 		User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -86,11 +83,11 @@ public class ViewController {
 		model.addAttribute("orders", orders);
 		return "orders";
 	}
-	
+
 	@RequestMapping(value = "/flushcache", method = RequestMethod.GET)
 	public String flushTheCache(HttpServletRequest request) {
 		cacheService.flushCache();
 		String referer = request.getHeader("Referer");
-		return "redirect:"+referer;
+		return "redirect:" + referer;
 	}
 }

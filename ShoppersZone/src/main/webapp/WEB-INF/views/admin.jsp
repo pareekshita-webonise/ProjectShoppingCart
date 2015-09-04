@@ -9,7 +9,7 @@
 <head>
 <spring:url value="/resources/css/home.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<title>Home</title>
+<title>Admin</title>
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
@@ -36,9 +36,11 @@
 	</header>
 	<div class="clear"></div>
 	<div class="container">
-		<center>
-			<h1>This page is under construction</h1>
-		</center>
+
+		<h1>
+			<center>This page is under construction</center>
+		</h1>
+
 	</div>
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">

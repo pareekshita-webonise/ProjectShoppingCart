@@ -17,12 +17,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addUser(User user) {
-
 		userDao.saveUser(user);
 	}
 
 	@Override
 	public User getUserByName(String username) {
 		return userDao.findByUserName(username);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		userDao.updateUser(user);
+	}
+
+	public void setUserDao(UserDao mockUserDao) {
+		this.userDao = mockUserDao;
 	}
 }

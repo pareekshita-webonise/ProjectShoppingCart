@@ -1,9 +1,5 @@
 package com.shopperszone.cache;
 
-/**
- * @author Akshay
- */
-
 public interface CachableObject {
 	public String getKey();
 

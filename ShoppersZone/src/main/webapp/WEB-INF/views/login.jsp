@@ -10,26 +10,36 @@
 <spring:url value="/resources/css/login.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Login</title>
 
 <script type="text/javascript">
-	function InvalidMsg(textbox) {
-		if (textbox.value == '') {
-			switch (textbox.id) {
-			case "uname":
-				textbox.setCustomValidity('Please insert mail ID');
-				break;
-			case "upass":
-				textbox.setCustomValidity('Please insert password');
-				break;
+	function loginSubmit() {
+
+		var blankFlag = false;
+		var boxes = document.getElementsByTagName("input");
+		for (i = 0; i < boxes.length; i++) {
+			if ((boxes[i].type == "text" || boxes[i].type == "password")
+					&& boxes[i].value == "") {
+				console.log("type : " + boxes[i].type);
+				console.log("value : " + boxes[i].value);
+				blankFlag = true;
 			}
+
 		}
+		console.log(blankFlag);
+		var form = document.getElementById("loginForm");
+		if (blankFlag == true) {
+			form.action = "/shopperszone/login";
+			form.method = "GET";
+			alert("Please fill all the details");
+
+		}
+		form.submit();
 	}
-	
+
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
-
 </script>
 </head>
 <body>
@@ -39,7 +49,6 @@
 			<div class="login">
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
-						<a href="/shopperszone/login">Log In</a>
 						<a href="/shopperszone/signup">Sign Up</a>
 					</c:when>
 					<c:otherwise>
@@ -53,15 +62,20 @@
 	</header>
 	<div class="container">
 		<div class="userlogin">
-			<form:form action="j_spring_security_check" method="post" modelAttribute="user">
-				<center><span style="color: red">${message}</span><br></center><br><br>
-				<form:input path="username" type="text" placeholder="Email"
-					required="required" oninvalid="InvalidMsg(this);" id="uname" />
+			<form:form action="j_spring_security_check" method="post"
+				modelAttribute="user" id="loginForm">
+				<center>
+					<span style="color: red">${message}</span><br>
+				</center>
 				<br>
-				<form:input path="password" type="password" placeholder="Password"
-					required="required" oninvalid="InvalidMsg(this);" id="upass" />
 				<br>
-				<span><form:input type="submit" value="Login" path="" class="btn btn-large btn-block btn-inverse"/></span>
+				<form:input path="username" type="text" placeholder="Email" />
+				<br>
+				<form:input path="password" type="password" placeholder="Password" />
+				<br>
+				<span><form:input type="submit" value="Login" path=""
+						class="btn btn-large btn-block btn-inverse"
+						onclick="loginSubmit()" /></span>
 			</form:form>
 		</div>
 	</div>

@@ -10,7 +10,7 @@
 <spring:url value="/resources/css/order.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Past Orders</title>
 <script>
 		function formSubmit() {
 			document.getElementById("logoutForm").submit();

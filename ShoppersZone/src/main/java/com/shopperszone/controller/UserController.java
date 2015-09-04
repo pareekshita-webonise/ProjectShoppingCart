@@ -1,5 +1,7 @@
 package com.shopperszone.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,7 +35,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/login")
-	public ModelAndView getLoginForm(@ModelAttribute com.shopperszone.model.User user,
+	public ModelAndView getLoginForm(@ModelAttribute User user,
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
 
@@ -51,7 +53,7 @@ public class UserController {
 		return "admin";
 	}
 
-	@RequestMapping("/account**")
+	@RequestMapping(value="/account**", method = RequestMethod.GET)
 	public String getUserProfile(Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userService.getUserByName(username);
@@ -67,11 +69,18 @@ public class UserController {
 
 	@RequestMapping(value = "/saveuser", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") User user, Model model, RedirectAttributes attribute) {
-		msg = "";
 		userService.addUser(user);
 		msg = "Registered successfully";
 		attribute.addFlashAttribute("message", msg);
+		msg="";
 		return "redirect:/login";
+	}
+	
+	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
+	public String updateUser(@ModelAttribute("user") User user, HttpServletRequest request, RedirectAttributes attribute) {
+		userService.updateUser(user);
+		String referer = request.getHeader("referer");
+		return "redirect:"+referer;
 	}
 
 	@RequestMapping("/403")

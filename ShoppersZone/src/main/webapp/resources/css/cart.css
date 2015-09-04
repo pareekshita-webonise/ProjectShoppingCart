@@ -32,7 +32,16 @@ header{
 	color:#4466ff;
 	text-decoration:none;
 }
-
+.list{
+	float:left;
+	height:572px;
+	background-color:lightgray;
+	overflow-y:scroll;
+	margin-bottom:20px;
+}
+.clear{
+	clear:both;
+}
 /***************************** input button ************************************/
 
 .btn.btn-large {
@@ -65,10 +74,6 @@ header{
 
 /***************************** table ************************************/
 
-table {
-    width:40%;
-    margin-bottom:20px;
-}
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;

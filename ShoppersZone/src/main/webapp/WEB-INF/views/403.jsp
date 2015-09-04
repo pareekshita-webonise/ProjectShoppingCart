@@ -9,7 +9,7 @@
 <head>
 <spring:url value="/resources/css/home.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<title>Home</title>
+<title>403:Page not found</title>
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();

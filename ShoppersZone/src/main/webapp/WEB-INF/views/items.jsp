@@ -9,13 +9,12 @@
 <head>
 <spring:url value="/resources/css/items.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<title>Insert title here</title>
+<title>Items</title>
 
 <script type="text/javascript">
 	var cnt = 0;
 
 	function validate(checkbox) {
-		console.log("1");
 		if (checkbox.checked == true)
 			cnt++;
 		else

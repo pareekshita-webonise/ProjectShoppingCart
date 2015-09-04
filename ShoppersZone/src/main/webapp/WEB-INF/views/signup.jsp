@@ -10,11 +10,31 @@
 <head>
 <spring:url value="/resources/css/signup.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<title>Insert title here</title>
+<title>Sign up</title>
 
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
+	}
+	
+	function signupSubmit() {
+
+		var blankFlag=false;
+		var boxes = document.getElementsByTagName("input");
+		for (i = 0; i < boxes.length; i++) {
+			if ((boxes[i].type == "text" || boxes[i].type == "password") && boxes[i].value=="")
+				blankFlag=true;
+		}
+		console.log(blankFlag);
+		var form = document.getElementById("signupForm");
+		if(blankFlag==true)
+		{
+			form.action = "/shopperszone/signup";
+			form.method="GET";
+			alert("Please fill all the details");
+			
+		}
+		form.submit();	
 	}
 </script>
 
@@ -27,7 +47,6 @@
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
 						<a href="/shopperszone/login">Log In</a>
-						<a href="/shopperszone/signup">Sign Up</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/shopperszone/account">${pageContext.request.userPrincipal.name}</a>
@@ -42,23 +61,29 @@
 		<div class="signup">
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.name == null}">
-					<form:form action="saveuser" method="post" modelAttribute="user">
-						<form:input path="username" type="text" placeholder="Email" />
+					<form:form action="saveuser" method="post" modelAttribute="user" id="signupForm">
+						<p>Username:</p>
+						<form:input path="username" type="text" placeholder="Enter Email" />
 						<br>
-						<form:input path="password" type="password" placeholder="Password" />
+						<p>Password:</p>
+						<form:input path="password" type="password" placeholder="Enter Password" />
 						<br>
-						<form:input path="firstName" type="text" placeholder="First Name" />
+						<p>First name:</p>
+						<form:input path="firstName" type="text" placeholder="Enter First Name" />
 						<br>
-						<form:input path="lastName" type="text" placeholder="Last Name" />
+						<p>Last name:</p>
+						<form:input path="lastName" type="text" placeholder="Enter Last Name" />
 						<br>
+						<p>Shipping Address:</p>
 						<form:input path="address" type="text"
-							placeholder="Shipping Address" value="" />
+							placeholder="Enter  Address" value="" />
 						<br>
+						<p>Contact Number:</p>
 						<form:input path="contactNo" type="text"
-							placeholder="Mobile Number" value="" />
+							placeholder="Enter Mobile Number" value="" />
 						<br>
 						<form:input type="submit" value="Sign up" path=""
-							class="btn btn-large btn-block btn-inverse" />
+							class="btn btn-large btn-block btn-inverse" onclick="javascript:signupSubmit()"/>
 					</form:form>
 					<br>
 					<div style="color: red">${msg}</div>

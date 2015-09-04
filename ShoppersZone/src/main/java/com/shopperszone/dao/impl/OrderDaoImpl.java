@@ -33,7 +33,7 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			session = sessionFactory.getCurrentSession();
 			order = new Order();
-			LOG.info(user.getUsername()+" "+items.size());
+			LOG.info(user.getUsername() + " " + items.size());
 			order.setDate(DateUtility.getCurrentDate());
 			order.setUser(user);
 			order.setItems(items);

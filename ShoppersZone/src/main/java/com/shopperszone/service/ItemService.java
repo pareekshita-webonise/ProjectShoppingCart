@@ -16,4 +16,6 @@ public interface ItemService {
 	public List<String> getAllCategories();
 
 	public List<Item> addToCart(List<Item> cartItems, int[] items);
+
+	public List<Item> deleteItemsFromCart(List<Item> cartItems, int[] items);
 }

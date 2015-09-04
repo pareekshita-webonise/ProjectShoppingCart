@@ -29,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private CacheService cacheService;
-	
+
 	List<String> categories = null;
 
 	@Override
@@ -46,7 +46,6 @@ public class ItemServiceImpl implements ItemService {
 		if (cachedItems == null || cachedItems.size() == 0) {
 			LOG.info("No data in cache");
 			items = this.itemDao.getCategorisedItems(category);
-			System.out.println(category + " " + items);
 			for (Item item : items) {
 				cacheService.save(item);
 			}
@@ -63,11 +62,10 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<String> getAllCategories() {
-		if(categories==null)
-		{			
+		if (categories == null) {
 			categories = itemDao.getDistinctCategories();
-			LOG.info(categories.size()+" Categories retrieved from database");
-		}		
+			LOG.info(categories.size() + " Categories retrieved from database");
+		}
 		return categories;
 	}
 
@@ -79,6 +77,24 @@ public class ItemServiceImpl implements ItemService {
 				cartItems.add(item);
 		}
 		return cartItems;
+	}
+
+	@Override
+	public List<Item> deleteItemsFromCart(List<Item> cartItems, int[] items) {
+		for (int i = 0; i < items.length; i++) {
+			for (int k = 0; k < cartItems.size(); k++) {
+				Item cItem = cartItems.get(k);
+				if (cItem.getId() == items[i]) {
+					cartItems.remove(k);
+				}
+			}
+		}
+		return cartItems;
+	}
+
+	public void setItemDao(ItemDao mockItemDao) {
+		this.itemDao = mockItemDao;
+
 	}
 
 }

@@ -5,9 +5,9 @@ use shopping_cart;
 create table users ( id int NOT NULL AUTO_INCREMENT, username varchar(100) NOT NULL, password varchar(30) NOT NULL, fname varchar(30) NOT NULL, lname varchar(30),address varchar(255) NOT NULL, contact_no int NOT NULL,enabled tinyint NOT NULL, PRIMARY KEY(id));
 insert into users(username, password, fname, lname, address, contact_no, enabled) values
 ("sky@gmail.com", "sky123", "Sky", "Blue","Parbani,Maharashtra", 1234567890, true),
-("jack@gmail.com", "jack123", "Jack", "Wilson","Indore,MadhyaPradesh", 1234565416, true),
+("jack@gmail.com", "jack123", "Jack", "Wilson","Gadag, Karnataka", 1234565416, true),
 ("robert@gmail.com", "rob123", "Robert", "Patrick","Jalgaon,MadhyaPradesh", 7987491156, true),
-("andriya@gmail.com", "andy123", "Andriya", "Floresce","Jalgaon,MadhyaPradesh", 7987491156, true);
+("andriya@gmail.com", "andy123", "Andriya", "Floresce","Indore,MadhyaPradesh", 7987491156, true);
 
 
 create table user_roles ( id int NOT NULL AUTO_INCREMENT,role varchar(50) NOT NULL, user_id int NOT NULL, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES users(id));
@@ -52,8 +52,15 @@ insert into items(item_name,price,quantity,category) value("Dell Inspiron laptop
 insert into items(item_name,price,quantity,category) value("Logitech Gaming Mouse",1999.00,11,"Computers");
 
 
-
-
 create table orders(id int NOT NULL AUTO_INCREMENT, order_date DATE NOT NULL, user_id int NOT NULL, total_amount double(9,2) NOT NULL,  payment_type varchar(50) NOT NULL, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES users(id));
 
 create table ordered_items(id int NOT NULL AUTO_INCREMENT, order_id int NOT NULL, item_id int NOT NULL, PRIMARY KEY(id), FOREIGN KEY(order_id) REFERENCES orders(id),  FOREIGN KEY(item_id) REFERENCES items(id));
+
+
+select * from items;
+
+select * from users;
+select * from user_roles;
+
+select * from orders;
+select * from ordered_items;
