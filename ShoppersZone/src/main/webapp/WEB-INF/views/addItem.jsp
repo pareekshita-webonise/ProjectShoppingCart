@@ -2,14 +2,15 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <html>
 <head>
-<spring:url value="/resources/css/home.css" var="mainCss" />
+<spring:url value="/resources/css/signup.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<title>Home</title>
+<title>Add Item</title>
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
@@ -24,7 +25,6 @@
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
 						<a href="/shopperszone/login">Log In</a>
-						<a href="/shopperszone/signup">Sign Up</a>
 					</c:when>
 					<c:otherwise>
 						<a href="/shopperszone/account">${pageContext.request.userPrincipal.name}</a>
@@ -35,17 +35,31 @@
 			</div>
 		</div>
 	</header>
-	<div class="clear"></div>
-	<div class="banner">
 	<div class="container">
-			<div class="category">
-				<ul>
-					<li><a href="/shopperszone/items">All</a></li>
-					<c:forEach items="${categories}" var="entry">
-						<li><a href="/shopperszone/items/${entry.toLowerCase()}">${entry}</a></li>
-					</c:forEach>
-				</ul>
-			</div>
+		<div class="signup">
+					<form:form action="/shopperszone/admin/addinventory" method="post" modelAttribute="item"
+						id="addItemForm">
+						<p>Item Name:</p>
+						<form:input path="name" type="text" id="txtEmail"
+							placeholder="Enter Item Name" />
+						<br>
+						<p>Item Price:</p>
+						<form:input path="price" type="text"
+							placeholder="Enter Item Price" />
+						<br>
+						<p>Item Quantity:</p>
+						<form:input path="quantity" type="text"
+							placeholder="Enter Item Quantity" />
+						<br>
+						<p>Item Category:</p>
+						<form:input path="category" type="text"
+							placeholder="Enter Item Category" />
+						<br>
+						<form:input type="submit" value="Add Item" path=""
+							class="btn btn-large btn-block btn-inverse" />
+					</form:form>
+					<br>
+					<div style="color: red; text-align: center;">${message}</div>
 		</div>
 	</div>
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />

@@ -24,7 +24,7 @@ import com.shopperszone.model.UserRole;
 public class LoginServiceImpl implements UserDetailsService {
 
 	@Autowired
-	UserDao userDao;
+	private UserDao userDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

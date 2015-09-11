@@ -1,26 +1,19 @@
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<spring:url value="/resources/css/order.css" var="mainCss" />
+<spring:url value="/resources/css/inventory.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Past Orders</title>
-<script>
-		function formSubmit() {
-			document.getElementById("logoutForm").submit();
-		}
-</script>
+<title>Items</title>
 </head>
 <body>
 	<header>
 		<div class="container">
-			<span class="home"><a href="/shopperszone/">Shoppers Zone</a></span>
+			<span class="home"><a href="/shopperszone/admin">Shoppers
+					Zone</a></span>
 			<div class="login">
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
@@ -32,44 +25,46 @@
 						<a href="javascript:formSubmit()"> Logout</a>
 					</c:otherwise>
 				</c:choose>
-				<a href="/shopperszone/cart">Cart</a><br> <br>
 			</div>
 		</div>
 	</header>
-	<div class="clear"></div>
 	<div class="container">
-	<c:choose>
-		<c:when test="${orders.size()==0}">
-			<H1>No orders</H1>
-		</c:when>
-		<c:otherwise>
-			<form:form action="/shopperszone/" method="get" commandName="orders">
-				<h2>Past Orders : </h2><br>
+		<c:choose>
+			<c:when test="${users == null}">
+				<h1>No Users Exist</h1>
+			</c:when>
+			<c:otherwise>
 				<table border="1" class="names">
 					<thead>
 						<tr>
-						<th>ID</th>
-						<th>Date</th>
-						<th>Total Items</th>
-						<th>Amount</th>
-						<th>Payment Type</th>
+							<th>ID</th>
+							<th>Username</th>
+							<th>FirstName</th>
+							<th>LastName</th>
+							<th>Address</th>
+							<th>Contact No</th>
+							<th>Enabled</th>
 						</tr>
 					</thead>
-					<tbody>
-					<c:forEach items="${orders}" var="entry">
+
+					<c:forEach items="${users}" var="entry">
 						<tr>
 							<td>${entry.getId()}</td>
-							<td>${entry.getDate()}</td>
-							<td>${entry.getItems().size()}</td>
-							<td>${entry.getTotalAmt()}</td>
-							<td>${entry.getPaymentType()}</td>
+							<td>${entry.getUsername()}</td>
+							<td>${entry.getFirstName()}</td>
+							<td>${entry.getLastName()}</td>
+							<td>${entry.getAddress()}</td>
+							<td>${entry.getContactNo()}</td>
+							<td>${entry.isEnabled()}</td>
 						</tr>
 					</c:forEach>
-					</tbody>
 				</table>
-			</form:form>
-		</c:otherwise>
-	</c:choose>
+				<br>
+				<div style="color: red; text-align: center; margin-left: 110px;">${message}</div>
+			</c:otherwise>
+		</c:choose>
+
+
 	</div>
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">

@@ -18,9 +18,7 @@ import com.shopperszone.cache.CachableObject;
 @Entity
 @Table(name = "items")
 public class Item implements CachableObject, Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -3178299340471670197L;
 
 	@Id

@@ -3,6 +3,14 @@ public String toString()
 	return "[ "+" ]";
 }
 
+logfile path
+/home/webonise/Documents/cartlog.log
 
 Apache problem
 kill $(ps -aef | grep java | grep apache | awk '{print $2}')
+
+using secure ports for app
+http://myshittycode.com/2014/06/12/spring-security-forcing-urls-to-use-https/
+
+where to go after successfull login
+http://stackoverflow.com/questions/14573654/spring-security-redirect-to-previous-page-after-succesful-login

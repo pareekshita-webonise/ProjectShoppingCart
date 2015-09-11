@@ -11,6 +11,7 @@ import com.shopperszone.model.Item;
 
 import junit.framework.TestCase;
 
+
 public class ItemServiceImplTest extends TestCase{
 	private ItemDao mockItemDao;
 	private ItemServiceImpl itemServiceImpl;
@@ -26,7 +27,7 @@ public class ItemServiceImplTest extends TestCase{
 		itemServiceImpl=null;
 	}
 	@Test
-	public void testsgetAllItems(){
+	public void testGetAllItems(){
 		List<Item> items= new ArrayList<Item>(1);
 		EasyMock.expect(mockItemDao.findAll()).andReturn(items);
 		EasyMock.replay(mockItemDao);		
@@ -34,7 +35,7 @@ public class ItemServiceImplTest extends TestCase{
 		EasyMock.verify(mockItemDao);
 	}
 	@Test
-	public void testgetAllCategories(){
+	public void testGetAllCategories(){
 		List<String> categories = new ArrayList<String>();		
 		EasyMock.expect(mockItemDao.getDistinctCategories()).andReturn(categories);
 		EasyMock.replay(mockItemDao);

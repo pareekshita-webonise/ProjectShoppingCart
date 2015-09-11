@@ -20,9 +20,7 @@ import javax.persistence.Table;
 @Table(name = "orders")
 public class Order implements Serializable {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 3505767563759053013L;
 
 	@Id
@@ -95,10 +93,6 @@ public class Order implements Serializable {
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public String toString() {

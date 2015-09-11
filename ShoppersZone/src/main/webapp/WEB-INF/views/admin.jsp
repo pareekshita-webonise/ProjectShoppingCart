@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<spring:url value="/resources/css/home.css" var="mainCss" />
+<spring:url value="/resources/css/admin.css" var="mainCss" />
 <link href="${mainCss}" rel="stylesheet" />
 <title>Admin</title>
 <script>
@@ -19,7 +19,8 @@
 <body>
 	<header>
 		<div class="container">
-			<span class="home"><a href="/shopperszone/">Shoppers Zone</a></span>
+			<span class="home"><a href="/shopperszone/admin">Shoppers
+					Zone</a></span>
 			<div class="login">
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
@@ -27,20 +28,23 @@
 						<a href="/shopperszone/signup">Sign Up</a>
 					</c:when>
 					<c:otherwise>
-						<a href="">${pageContext.request.userPrincipal.name} </a>
+						<a href="/shopperszone/account">${pageContext.request.userPrincipal.name}</a>
+						<a href="javascript:formSubmit()"> Logout</a>
 					</c:otherwise>
 				</c:choose>
-				<a href="/shopperszone/cart">Cart</a><br> <br>
 			</div>
 		</div>
 	</header>
 	<div class="clear"></div>
 	<div class="container">
-
-		<h1>
-			<center>This page is under construction</center>
-		</h1>
-
+		<div class="category">
+		<ul>
+			<li><a href="/shopperszone/admin/inventory">Inventory</a></li>
+			<li><a href="/shopperszone/admin/users">Registered Users</a></li>
+			<li><a href="/shopperszone/admin/orders">All Orders</a></li>
+			<li><a href="/shopperszone/admin/additem">Add Items</a></li>
+			</ul>
+		</div>
 	</div>
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">

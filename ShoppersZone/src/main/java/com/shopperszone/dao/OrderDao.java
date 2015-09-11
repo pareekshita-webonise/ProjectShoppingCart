@@ -13,5 +13,7 @@ public interface OrderDao {
 
 	public Order saveOrder(User user, List<Item> items);
 
-	List<Order> findOrdersByUserId(int userId);
+	public List<Order> findOrdersByUserId(int userId);
+
+	public List<Order> findAllOrders();
 }

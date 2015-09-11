@@ -16,25 +16,39 @@
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
-	
+	function validate(){
+		signupSubmit();
+		checkEmail();
+	}
 	function signupSubmit() {
 
-		var blankFlag=false;
+		var blankFlag = false;
 		var boxes = document.getElementsByTagName("input");
 		for (i = 0; i < boxes.length; i++) {
-			if ((boxes[i].type == "text" || boxes[i].type == "password") && boxes[i].value=="")
-				blankFlag=true;
+			if ((boxes[i].type == "text" || boxes[i].type == "password")
+					&& boxes[i].value == "")
+				blankFlag = true;
 		}
 		console.log(blankFlag);
 		var form = document.getElementById("signupForm");
-		if(blankFlag==true)
-		{
+		if (blankFlag == true) {
 			form.action = "/shopperszone/signup";
-			form.method="GET";
+			form.method = "GET";
 			alert("Please fill all the details");
-			
+
 		}
-		form.submit();	
+		form.submit();
+	}
+	function checkEmail() {
+
+		var email = document.getElementById("txtEmail");
+		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		if (!filter.test(email.value)) {
+			alert('Please provide a valid email address');
+			email.focus;
+			return false;
+		}
 	}
 </script>
 
@@ -61,32 +75,38 @@
 		<div class="signup">
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.name == null}">
-					<form:form action="saveuser" method="post" modelAttribute="user" id="signupForm">
+					<form:form action="saveuser" method="post" modelAttribute="user"
+						id="signupForm" name="sform">
 						<p>Username:</p>
-						<form:input path="username" type="text" placeholder="Enter Email" />
+						<form:input path="username" type="text" id="txtEmail"
+							placeholder="Enter Email" />
 						<br>
 						<p>Password:</p>
-						<form:input path="password" type="password" placeholder="Enter Password" />
+						<form:input path="password" type="password"
+							placeholder="Enter Password" />
 						<br>
 						<p>First name:</p>
-						<form:input path="firstName" type="text" placeholder="Enter First Name" />
+						<form:input path="firstName" type="text"
+							placeholder="Enter First Name" />
 						<br>
 						<p>Last name:</p>
-						<form:input path="lastName" type="text" placeholder="Enter Last Name" />
+						<form:input path="lastName" type="text"
+							placeholder="Enter Last Name" />
 						<br>
 						<p>Shipping Address:</p>
-						<form:input path="address" type="text"
+						<form:input path="address" type="text" maxlength="200"
 							placeholder="Enter  Address" value="" />
 						<br>
 						<p>Contact Number:</p>
-						<form:input path="contactNo" type="text"
+						<form:input path="contactNo" type="text" maxlength="10"
 							placeholder="Enter Mobile Number" value="" />
 						<br>
 						<form:input type="submit" value="Sign up" path=""
-							class="btn btn-large btn-block btn-inverse" onclick="javascript:signupSubmit()"/>
+							class="btn btn-large btn-block btn-inverse"
+							onclick="validate();" />
 					</form:form>
 					<br>
-					<div style="color: red">${msg}</div>
+					<div style="color: red; text-align: center;">${message}</div>
 				</c:when>
 				<c:otherwise>
 					<h1>Please logout the current account to Sign up for new

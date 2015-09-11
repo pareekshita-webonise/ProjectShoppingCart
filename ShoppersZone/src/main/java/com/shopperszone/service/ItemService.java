@@ -18,4 +18,12 @@ public interface ItemService {
 	public List<Item> addToCart(List<Item> cartItems, int[] items);
 
 	public List<Item> deleteItemsFromCart(List<Item> cartItems, int[] items);
+
+	public void addItem(Item item);
+
+	public void updateItem(Item item);
+
+	public void deleteItem(int id);
+
+	public Item getItemById(int id);
 }

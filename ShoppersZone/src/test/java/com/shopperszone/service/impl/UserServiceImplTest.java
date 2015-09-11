@@ -9,6 +9,7 @@ import com.shopperszone.model.User;
 import junit.framework.TestCase;
 
 public class UserServiceImplTest extends TestCase {
+	
 	private UserDao mockUserDao;
 	private UserServiceImpl userServiceImpl;
 	
@@ -24,7 +25,7 @@ public class UserServiceImplTest extends TestCase {
 		userServiceImpl=null;	
 	}
 	@Test
-	public void testaddUser(){
+	public void testAddUser(){
 		User user = new User();
 		user.setId(2);
 		user.setUsername("jack@gmail.com");
@@ -37,9 +38,11 @@ public class UserServiceImplTest extends TestCase {
 		mockUserDao.saveUser(user);
 		EasyMock.expectLastCall().once();
 		EasyMock.replay(mockUserDao);
+		userServiceImpl.addUser(user);
+		EasyMock.verify(mockUserDao);
 	}
 	@Test
-	public void testgetUserByName() {	
+	public void testGetUserByName() {	
 		User user = new User();
 		EasyMock.expect(mockUserDao.findByUserName("jack@gmail.com")).andReturn(user);
 		EasyMock.replay(mockUserDao);

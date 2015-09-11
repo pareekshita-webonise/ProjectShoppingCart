@@ -30,17 +30,33 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private CacheService cacheService;
 
-	List<String> categories = null;
+	private List<String> categories = null;
 
 	@Override
 	public List<Item> getAllItems() {
-		return this.itemDao.findAll();
+		return itemDao.findAll();
 	}
-
+	
+	@Override
+	public Item getItemById(int id){
+		 Item item = itemDao.findById(id);
+		 return item;
+	}
+	
 	@Override
 	public List<Item> getCategorisedItems(String category) {
+		boolean noSuchCategory=true;
+		for(String myCategory:categories)
+		{
+			if(myCategory.equalsIgnoreCase(category))
+				noSuchCategory=false;
+		}
+		if(noSuchCategory)
+			return null;
+		
 		List<Item> items = new ArrayList<Item>();
 		long start = System.currentTimeMillis();
+		
 		Map<Object, Object> cachedItems = cacheService.readAllHash(category);
 
 		if (cachedItems == null || cachedItems.size() == 0) {
@@ -71,30 +87,49 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<Item> addToCart(List<Item> cartItems, int[] items) {
+		boolean present=false;
 		for (int i = 0; i < items.length; i++) {
-			Item item = itemDao.findById(items[i]);
-			if (!cartItems.contains(item))
-				cartItems.add(item);
+			for(Item item:cartItems)
+			{
+				if(item.getId()==items[i])
+					present=true;
+			}
+			if(!present)
+				cartItems.add(itemDao.findById(items[i]));
 		}
 		return cartItems;
 	}
 
 	@Override
 	public List<Item> deleteItemsFromCart(List<Item> cartItems, int[] items) {
-		for (int i = 0; i < items.length; i++) {
-			for (int k = 0; k < cartItems.size(); k++) {
-				Item cItem = cartItems.get(k);
-				if (cItem.getId() == items[i]) {
-					cartItems.remove(k);
+		for (int index = 0; index < items.length; index++) {
+			for(Item item:cartItems)
+			{
+				if(item.getId() == items[index])
+				{
+					cartItems.remove(item);
+					break;
 				}
 			}
 		}
+		LOG.info("Cart size : "+cartItems.size());
 		return cartItems;
 	}
-
+	@Override
+	public void addItem(Item item){
+		itemDao.saveItem(item);
+	}
+	
+	@Override
+	public void updateItem(Item item){
+		itemDao.updateItem(item);
+	}
+	
+	@Override
+	public void deleteItem(int id){
+		itemDao.deleteItem(id);
+	}
 	public void setItemDao(ItemDao mockItemDao) {
 		this.itemDao = mockItemDao;
-
 	}
-
 }

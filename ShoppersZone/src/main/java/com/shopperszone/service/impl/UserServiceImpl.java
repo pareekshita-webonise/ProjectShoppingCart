@@ -1,5 +1,7 @@
 package com.shopperszone.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,12 @@ import com.shopperszone.service.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
-
+	
+	@Override
+	public List<User> getAllUsers() {
+		return userDao.listAllUsers();
+	}
+	
 	@Override
 	public void addUser(User user) {
 		userDao.saveUser(user);
@@ -30,7 +37,14 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(user);
 	}
 
+	@Override
+	public boolean isAlreadyRegistered(User registeredUser) {
+		User user = userDao.findByUserName(registeredUser.getUsername());
+		return ((user == null) ? false : true);
+	}
+
 	public void setUserDao(UserDao mockUserDao) {
 		this.userDao = mockUserDao;
 	}
+
 }

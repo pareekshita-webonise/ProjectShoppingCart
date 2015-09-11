@@ -21,9 +21,7 @@ public class OrderServiceImplTest extends TestCase{
 	@Override
 	protected void setUp() throws Exception{
 		orderServiceImpl= new OrderServiceImpl();
-		/*mockUserDao =EasyMock.createMock(UserDao.class);*/
 		mockOrderDao=EasyMock.createMock(OrderDao.class);
-		/*mockItemDao=EasyMock.createMock(ItemDao.class);*/
 		orderServiceImpl.setOrderDao(mockOrderDao);
 	}
 	@Override
@@ -32,7 +30,7 @@ public class OrderServiceImplTest extends TestCase{
 		orderServiceImpl=null;
 	}
 	@Test
-	public void testplaceOrder(){
+	public void testPlaceOrder(){
 		Order order = new Order();
 		User user = new User();
 		List<Item> items = new ArrayList<Item>();
@@ -43,7 +41,7 @@ public class OrderServiceImplTest extends TestCase{
 		EasyMock.verify(mockOrderDao);
 	}
 	@Test
-	public void testplaceOrderNullItems(){
+	public void testPlaceOrderNullItems(){
 		User user = new User();
 		user.setId(2);
 		EasyMock.expect(mockOrderDao.saveOrder(user, null)).andReturn(null);
@@ -51,14 +49,14 @@ public class OrderServiceImplTest extends TestCase{
 		assertEquals(null, orderServiceImpl.placeOrder(user, null));		
 	}
 	@Test
-	public void testplaceOrderNullUser(){
+	public void testPlaceOrderNullUser(){
 		List<Item> items = new ArrayList<Item>();
 		EasyMock.expect(mockOrderDao.saveOrder(null, items)).andReturn(null);
 		EasyMock.replay(mockOrderDao);
 		assertEquals(null, orderServiceImpl.placeOrder(null, items));		
 	}
 	@Test
-	public void testgetMyOrders(){
+	public void testGetMyOrders(){
 		User user= new User();
 		user.setId(2);
 		user.setUsername("jack@gmail.com");

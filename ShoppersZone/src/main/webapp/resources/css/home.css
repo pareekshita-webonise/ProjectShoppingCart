@@ -32,13 +32,22 @@ header{
 	color:#4466ff;
 	text-decoration:none;
 }
+.banner
+{
+	width: auto;
+	height:650px;
+	background: url("banner.png");
+	background-position: center top;
+	background-repeat: no-repeat;	
+}
 .category li{
+	float:left;
 	list-style-type:none;
 	margin-bottom:10px;
 	width:15%;
 	background-color:#71c4ea;
 	font-size:18px;	
-	
+	margin-right:15px;
 }
 .category a{
 	padding:10px;

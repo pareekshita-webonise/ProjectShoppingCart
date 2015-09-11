@@ -37,9 +37,9 @@
 	</header>
 	<div class="clear"></div>
 	<div class="container">
-		<center>
+		<div style="text-align:center;">
 			Access Denied for User : <span style="color: red;">${username}</span>
-		</center>
+		</div>
 	</div>
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">

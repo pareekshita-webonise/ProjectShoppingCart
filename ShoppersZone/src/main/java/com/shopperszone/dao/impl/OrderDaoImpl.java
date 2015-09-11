@@ -15,6 +15,7 @@ import com.shopperszone.model.Order;
 import com.shopperszone.model.User;
 import com.shopperszone.utility.DateUtility;
 
+@SuppressWarnings("unchecked")
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
@@ -22,18 +23,14 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	private Session session = null;
-
-	Order order = null;
-
+	
 	@Override
 	public Order saveOrder(User user, List<Item> items) {
+		Order order = null;
 		Double totalAmt = 0.0;
 		try {
-			session = sessionFactory.getCurrentSession();
+			Session session = sessionFactory.getCurrentSession();
 			order = new Order();
-			LOG.info(user.getUsername() + " " + items.size());
 			order.setDate(DateUtility.getCurrentDate());
 			order.setUser(user);
 			order.setItems(items);
@@ -49,7 +46,6 @@ public class OrderDaoImpl implements OrderDao {
 		return order;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Order> findOrdersByUserId(int userId) {
 		List<Order> myOrders = null;
@@ -60,6 +56,18 @@ public class OrderDaoImpl implements OrderDao {
 			LOG.error("Error : " + e);
 		}
 		return myOrders;
+	}
+	@Override
+	public List<Order> findAllOrders(){
+		List<Order> allorders = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			allorders = session.createQuery("from Order").list();	
+			System.out.println(allorders.size());
+		} catch (Exception e) {
+			LOG.error("Error : " + e);
+		}
+		return allorders;
 	}
 
 }

@@ -9,17 +9,13 @@
 	<beans:bean id="jedisConnFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		p:use-pool="true" p:host-name="localhost" p:port="6379" />
-
-
-	<beans:bean id="lettuceConnectionFactory"
-		class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory"
-		p:host-name="localhost" p:port="6379" />
+		<!-- <property name="uri" value="redis://host:port"/> -->
 
 	<beans:bean id="stringRedisSerializer"
 		class="org.springframework.data.redis.serializer.StringRedisSerializer" />
 
 	<beans:bean id="redisTemplate"
 		class="org.springframework.data.redis.core.RedisTemplate"
-		p:connection-factory-ref="lettuceConnectionFactory"
+		p:connection-factory-ref="jedisConnFactory"
 		p:keySerializer-ref="stringRedisSerializer" p:hashKeySerializer-ref="stringRedisSerializer" />
 </beans:beans>

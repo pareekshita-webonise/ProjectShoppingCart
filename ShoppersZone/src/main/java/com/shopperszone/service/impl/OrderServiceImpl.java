@@ -1,5 +1,6 @@
 package com.shopperszone.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,11 +19,8 @@ import com.shopperszone.service.OrderService;
 public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderDao orderDao;
-
-	public void setItemDao(OrderDao orderDao) {
-		this.orderDao = orderDao;
-	}
-
+	
+	
 	@Override
 	public Order placeOrder(User user, List<Item> items) {
 		Order order = orderDao.saveOrder(user, items);
@@ -34,9 +32,19 @@ public class OrderServiceImpl implements OrderService {
 		List<Order> myOrders = orderDao.findOrdersByUserId(user.getId());
 		return myOrders;
 	}
-
-	public void setOrderDao(OrderDao mockOrderDao) {
-		this.orderDao = mockOrderDao;
+	
+	@Override
+	public List<Order> getAllOrders(){
+		return orderDao.findAllOrders();
 	}
 
+	@Override
+	public ByteArrayOutputStream convertPDFToByteArrayOutputStream(String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
 }

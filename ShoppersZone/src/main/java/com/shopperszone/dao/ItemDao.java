@@ -9,12 +9,18 @@ import com.shopperszone.model.Item;
 @Repository
 public interface ItemDao {
 
-	Item findById(int id);
+	public Item findById(int id);
 
 	public List<Item> findAll();
 
-	List<String> getDistinctCategories();
+	public List<String> getDistinctCategories();
 
 	public List<Item> getCategorisedItems(String category);
+
+	public void updateItem(Item item);
+
+	public void deleteItem(int id);
+
+	public void saveItem(Item item);
 
 }

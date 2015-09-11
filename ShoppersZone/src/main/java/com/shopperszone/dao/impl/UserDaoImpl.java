@@ -14,6 +14,7 @@ import com.shopperszone.dao.UserDao;
 import com.shopperszone.model.User;
 import com.shopperszone.model.UserRole;
 
+@SuppressWarnings("unchecked")
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -23,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	private Session session = null;
-
+	
 	@Override
 	public void saveUser(User user) {
 		try {
@@ -40,7 +41,6 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User findByUserName(String username) {
 		List<User> users = null;
@@ -64,5 +64,17 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 			LOG.error(e.getMessage());
 		}
+	}
+	
+	@Override
+	public List<User> listAllUsers() {
+		List<User> allusers = null;
+		try {
+			session = sessionFactory.getCurrentSession(); 
+			allusers = session.createQuery("from User").list();
+		} catch (Exception e) {
+			LOG.error("Error : " + e);
+		}
+		return allusers;
 	}
 }
