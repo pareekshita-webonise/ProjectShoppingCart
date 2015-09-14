@@ -23,6 +23,7 @@ public class CacheServiceImpl implements CacheService {
 	@Override
 	public void save(final CachableObject CachableObject) {
 		LOG.debug("Saving object for key: {}", CachableObject.getKey());
+		System.out.println(CachableObject.getObjectKey());
 		redisTemplate.opsForHash().put(CachableObject.getObjectKey(), CachableObject.getKey(), CachableObject);
 	}
 

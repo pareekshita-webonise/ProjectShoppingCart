@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.model.User;
 import com.shopperszone.service.UserService;
 
@@ -61,7 +62,13 @@ public class UserController {
 
 	@RequestMapping(value = "/account**", method = RequestMethod.GET)
 	public ModelAndView getUserProfile(Model model) {
-		User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+		User user = null;
+		try {
+			user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+		} catch (ShoppersZoneException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("account", "user", user);
 	}
 
@@ -72,13 +79,23 @@ public class UserController {
 
 	@RequestMapping(value = "/saveuser", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") User user, Model model) {
-		if(userService.isAlreadyRegistered(user))
+		boolean isRegistered=false;
+		try
+		{
+			isRegistered = userService.isAlreadyRegistered(user);
+		}
+		catch(ShoppersZoneException e){
+			
+		}
+		
+		if(isRegistered)
 		{
 			model.addAttribute("message", "Username already exist.");
 			return "signup";
 		}
-		userService.addUser(user);
+		
 		try {
+			userService.addUser(user);
 			UserDetails userDetails = userDetailsSvc.loadUserByUsername(user.getUsername());
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,
 					user.getPassword(), userDetails.getAuthorities());
@@ -97,8 +114,14 @@ public class UserController {
 	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
 	public String updateUser(@ModelAttribute("user") User user, HttpServletRequest request,
 			RedirectAttributes attribute) {
-		userService.updateUser(user);
-		attribute.addFlashAttribute("message", "Updated successfully");
+		try {
+			userService.updateUser(user);
+			attribute.addFlashAttribute("message", "Updated successfully");
+		} catch (ShoppersZoneException e) {
+			attribute.addFlashAttribute("message", "Error updating user details");
+			e.printStackTrace();
+		}
+		
 		return "redirect:" + request.getHeader("referer");
 	}
 

@@ -20,7 +20,7 @@
 <body>
 	<header>
 		<div class="container">
-			<span class="home"><a href="/shopperszone/">Shoppers Zone</a></span>
+			<span class="home"><a href="/shopperszone/admin">Shoppers Zone</a></span>
 			<div class="login">
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name == null}">
@@ -31,6 +31,12 @@
 						<a href="/shopperszone/account">${pageContext.request.userPrincipal.name}
 						</a>
 						<a href="javascript:formSubmit()"> Logout</a>
+						<c:choose>
+							<c:when test="${isAdmin == true}">
+								<a href="/shopperszone/admin">Admin</a>
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 				<a href="/shopperszone/cart">Cart</a><br> <br>

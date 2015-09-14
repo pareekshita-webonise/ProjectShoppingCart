@@ -54,6 +54,12 @@
 					<c:otherwise>
 						<a href="/shopperszone/account">${pageContext.request.userPrincipal.name}</a>
 						<a href="javascript:formSubmit()"> Logout</a>
+						<c:choose>
+							<c:when test="${isAdmin == true}">
+								<a href="/shopperszone/admin">Admin</a>
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 				<a href="/shopperszone/cart">Cart</a><br> <br>
@@ -107,6 +113,7 @@
 					<input type="submit" value="Remove Items" disabled
 						class="btn btn-large btn-block btn-inverse"
 						onclick="javascript:redirectToLink(this)" id="deleteBtn">
+					<span style="color: red">${message}</span>
 				</form:form>
 			</c:otherwise>
 		</c:choose>

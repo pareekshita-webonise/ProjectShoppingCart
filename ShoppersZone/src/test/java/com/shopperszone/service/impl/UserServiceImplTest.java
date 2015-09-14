@@ -3,6 +3,7 @@ package com.shopperszone.service.impl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.dao.UserDao;
 import com.shopperszone.model.User;
 
@@ -26,6 +27,7 @@ public class UserServiceImplTest extends TestCase {
 	}
 	@Test
 	public void testAddUser(){
+		try{
 		User user = new User();
 		user.setId(2);
 		user.setUsername("jack@gmail.com");
@@ -40,13 +42,22 @@ public class UserServiceImplTest extends TestCase {
 		EasyMock.replay(mockUserDao);
 		userServiceImpl.addUser(user);
 		EasyMock.verify(mockUserDao);
+		}catch(ShoppersZoneException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	@Test
 	public void testGetUserByName() {	
 		User user = new User();
-		EasyMock.expect(mockUserDao.findByUserName("jack@gmail.com")).andReturn(user);
-		EasyMock.replay(mockUserDao);
-		assertEquals(user,userServiceImpl.getUserByName("jack@gmail.com"));
-		EasyMock.verify(mockUserDao);
+		try {
+			EasyMock.expect(mockUserDao.findByUserName("jack@gmail.com")).andReturn(user);
+			EasyMock.replay(mockUserDao);
+			assertEquals(user,userServiceImpl.getUserByName("jack@gmail.com"));
+			EasyMock.verify(mockUserDao);
+		} catch (ShoppersZoneException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

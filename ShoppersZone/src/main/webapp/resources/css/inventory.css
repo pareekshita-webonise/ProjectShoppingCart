@@ -1,5 +1,6 @@
 *{
 	margin: 0px;
+	text-decoration:none;
 	padding: 0px;
 }
 .container{
@@ -102,7 +103,7 @@ header{
 /***************************** table ************************************/
 
 table {
-    width:40%;
+	width:80%;
     margin-bottom:20px;
 }
 table, th, td {
@@ -111,7 +112,7 @@ table, th, td {
 }
 th, td {
     padding: 5px;
-    text-align: center;
+    text-align:left;
 }
 table.names tr:nth-child(even) {
     background-color: #eee;
@@ -122,4 +123,7 @@ table.names tr:nth-child(odd) {
 table.names th	{
     background-color: black;
     color: white
+}
+table.names a{
+	color:blue;
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.dao.ItemDao;
 import com.shopperszone.model.Item;
 
@@ -29,17 +30,28 @@ public class ItemServiceImplTest extends TestCase{
 	@Test
 	public void testGetAllItems(){
 		List<Item> items= new ArrayList<Item>(1);
-		EasyMock.expect(mockItemDao.findAll()).andReturn(items);
+		try {
+			EasyMock.expect(mockItemDao.findAll()).andReturn(items);
+		
 		EasyMock.replay(mockItemDao);		
 		assertEquals(items,itemServiceImpl.getAllItems());
 		EasyMock.verify(mockItemDao);
+		} catch (ShoppersZoneException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Test
 	public void testGetAllCategories(){
+		try {
 		List<String> categories = new ArrayList<String>();		
 		EasyMock.expect(mockItemDao.getDistinctCategories()).andReturn(categories);
 		EasyMock.replay(mockItemDao);
 		assertEquals(categories, itemServiceImpl.getAllCategories());
 		EasyMock.verify(mockItemDao);
+		} catch (ShoppersZoneException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shopperszone.cacheservice.CacheService;
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.dao.ItemDao;
 import com.shopperszone.model.Item;
 import com.shopperszone.service.ItemService;
@@ -33,18 +34,18 @@ public class ItemServiceImpl implements ItemService {
 	private List<String> categories = null;
 
 	@Override
-	public List<Item> getAllItems() {
+	public List<Item> getAllItems() throws ShoppersZoneException {
 		return itemDao.findAll();
 	}
 	
 	@Override
-	public Item getItemById(int id){
+	public Item getItemById(int id) throws ShoppersZoneException{
 		 Item item = itemDao.findById(id);
 		 return item;
 	}
 	
 	@Override
-	public List<Item> getCategorisedItems(String category) {
+	public List<Item> getCategorisedItems(String category)  throws ShoppersZoneException{
 		boolean noSuchCategory=true;
 		for(String myCategory:categories)
 		{
@@ -57,11 +58,11 @@ public class ItemServiceImpl implements ItemService {
 		List<Item> items = new ArrayList<Item>();
 		long start = System.currentTimeMillis();
 		
-		Map<Object, Object> cachedItems = cacheService.readAllHash(category);
+		Map<Object, Object> cachedItems = cacheService.readAllHash(category.toLowerCase());
 
 		if (cachedItems == null || cachedItems.size() == 0) {
 			LOG.info("No data in cache");
-			items = this.itemDao.getCategorisedItems(category);
+			items = this.itemDao.getCategorisedItems(category.toLowerCase());
 			for (Item item : items) {
 				cacheService.save(item);
 			}
@@ -77,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<String> getAllCategories() {
+	public List<String> getAllCategories() throws ShoppersZoneException {
 		if (categories == null) {
 			categories = itemDao.getDistinctCategories();
 			LOG.info(categories.size() + " Categories retrieved from database");
@@ -86,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<Item> addToCart(List<Item> cartItems, int[] items) {
+	public List<Item> addToCart(List<Item> cartItems, int[] items) throws ShoppersZoneException {
 		boolean present=false;
 		for (int i = 0; i < items.length; i++) {
 			for(Item item:cartItems)
@@ -116,17 +117,17 @@ public class ItemServiceImpl implements ItemService {
 		return cartItems;
 	}
 	@Override
-	public void addItem(Item item){
+	public void addItem(Item item) throws ShoppersZoneException{
 		itemDao.saveItem(item);
 	}
 	
 	@Override
-	public void updateItem(Item item){
+	public void updateItem(Item item) throws ShoppersZoneException{
 		itemDao.updateItem(item);
 	}
 	
 	@Override
-	public void deleteItem(int id){
+	public void deleteItem(int id) throws ShoppersZoneException{
 		itemDao.deleteItem(id);
 	}
 	public void setItemDao(ItemDao mockItemDao) {

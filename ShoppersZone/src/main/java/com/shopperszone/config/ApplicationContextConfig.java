@@ -39,8 +39,7 @@ public class ApplicationContextConfig {
 	    sessionBuilder.addAnnotatedClasses(Item.class);
 	    sessionBuilder.addAnnotatedClasses(Order.class);
 	    sessionBuilder.addAnnotatedClasses(User.class);
-	    sessionBuilder.addAnnotatedClasses(UserRole.class);
-	 
+	    sessionBuilder.addAnnotatedClasses(UserRole.class);	    
 	    return sessionBuilder.buildSessionFactory();
 	}
 	private Properties getHibernateProperties() {

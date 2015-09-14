@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.dao.UserDao;
 import com.shopperszone.model.User;
 import com.shopperszone.service.UserService;
@@ -18,27 +19,27 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers() throws ShoppersZoneException{
 		return userDao.listAllUsers();
 	}
 	
 	@Override
-	public void addUser(User user) {
+	public void addUser(User user) throws ShoppersZoneException {
 		userDao.saveUser(user);
 	}
 
 	@Override
-	public User getUserByName(String username) {
+	public User getUserByName(String username) throws ShoppersZoneException {
 		return userDao.findByUserName(username);
 	}
 
 	@Override
-	public void updateUser(User user) {
+	public void updateUser(User user) throws ShoppersZoneException {
 		userDao.updateUser(user);
 	}
 
 	@Override
-	public boolean isAlreadyRegistered(User registeredUser) {
+	public boolean isAlreadyRegistered(User registeredUser) throws ShoppersZoneException {
 		User user = userDao.findByUserName(registeredUser.getUsername());
 		return ((user == null) ? false : true);
 	}

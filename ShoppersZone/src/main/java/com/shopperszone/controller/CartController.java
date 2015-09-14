@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.model.Item;
 import com.shopperszone.model.Order;
 import com.shopperszone.model.User;
@@ -43,32 +44,51 @@ public class CartController {
 		if (cartItems == null) {
 			cartItems = new ArrayList<Item>();
 		}
-		itemService.addToCart(cartItems, items);
-		session.setAttribute("myCart", cartItems);
-		attributes.addFlashAttribute("message", "Items added to cart");
+		try {
+			itemService.addToCart(cartItems, items);
+			session.setAttribute("myCart", cartItems);
+			attributes.addFlashAttribute("message", "Items added to cart");
+		} catch (ShoppersZoneException e) {
+			attributes.addFlashAttribute("message", "Error adding items to cart");
+			e.printStackTrace();
+		}
+		
 		return "redirect:" + request.getHeader("Referer");
 	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String purchaseItems(Model model, HttpServletRequest request) {
+	public String purchaseItems(Model model, HttpServletRequest request, RedirectAttributes attributes) {
 		HttpSession session = request.getSession();
-		List<Item> cartItems = (List<Item>) session.getAttribute("myCart");
-		User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
-		Order order = orderService.placeOrder(user, cartItems);
-		session.setAttribute("myCart", null);
-		model.addAttribute("order", order);
-		return "order";
+		List<Item> cartItems = (List<Item>) session.getAttribute("myCart");		
+		try {
+			User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
+			Order order;
+			order = orderService.placeOrder(user, cartItems);
+			session.setAttribute("myCart", null);
+			model.addAttribute("order", order);
+			return "order";
+		} catch (ShoppersZoneException e) {
+			attributes.addFlashAttribute("message", "Error placing the order. Please try again..!");
+			e.printStackTrace();
+		}
+		return "redirect:/cart";
 	}
 
 	@RequestMapping(value = "/deleteItems", method = RequestMethod.POST)
-	public String deleteItems(HttpServletRequest request, @RequestParam int[] items) {
+	public String deleteItems(HttpServletRequest request, @RequestParam int[] items, RedirectAttributes attributes) {
 		HttpSession session = request.getSession();
 		List<Item> cartItems = (List<Item>) session.getAttribute("myCart");
 		if (cartItems == null) {
 			cartItems = new ArrayList<Item>();
 		}
-		itemService.deleteItemsFromCart(cartItems, items);
-		session.setAttribute("myCart", cartItems);
+		try {
+			itemService.deleteItemsFromCart(cartItems, items);
+			session.setAttribute("myCart", cartItems);
+			attributes.addFlashAttribute("message", items.length+" Items removed from cart");
+		} catch (ShoppersZoneException e) {
+			attributes.addFlashAttribute("message", items.length+" Error removing items from cart");
+			e.printStackTrace();
+		}		
 		return "redirect:" + request.getHeader("Referer");
 	}
 }

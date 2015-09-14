@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.shopperszone.custom.exceptions.ShoppersZoneException;
 import com.shopperszone.dao.UserDao;
 import com.shopperszone.model.UserRole;
 
@@ -29,7 +30,12 @@ public class LoginServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		com.shopperszone.model.User user = userDao.findByUserName(username);
+		com.shopperszone.model.User user = null;
+		try {
+			user = userDao.findByUserName(username);
+		} catch (ShoppersZoneException e) {
+			e.printStackTrace();
+		}
 
 		List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 

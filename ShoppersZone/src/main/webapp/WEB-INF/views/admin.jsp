@@ -19,7 +19,7 @@
 <body>
 	<header>
 		<div class="container">
-			<span class="home"><a href="/shopperszone/admin">Shoppers
+			<span class="home"><a href="/shopperszone/">Shoppers
 					Zone</a></span>
 			<div class="login">
 				<c:choose>
