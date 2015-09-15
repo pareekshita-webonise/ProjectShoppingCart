@@ -12,42 +12,81 @@
 <link href="${mainCss}" rel="stylesheet" />
 <title>Sign up</title>
 
-<script>
+<script language="javascript">
+	reqObj = null;
+	var allFieldsBlank = false;
+	var registeredUser = false;
+
+	function verifyUser() {
+
+		document.getElementById("res").innerHTML = "Checking";
+		var token = document.getElementById("token").value;
+		var header = document.getElementById("header").value;
+		console.log(header+" "+token);
+		if (window.XMLHttpRequest) {
+		{
+			reqObj = new XMLHttpRequest();
+		}
+		} else {
+			reqObj = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		
+		reqObj.onreadystatechange = process;
+		reqObj.open("POST", "./check?id="
+				+ document.getElementById("username").value, true);
+		reqObj.setRequestHeader(header, token);
+		reqObj.send(null);
+	}
+	
+	function process() {
+		console.log(reqObj.readyState);
+		var resDiv = document.getElementById("res");
+		if (reqObj.readyState == 4) {
+			console.log(reqObj.responseText);
+			if(reqObj.responseText == "FAIL")
+			{
+				resDiv.style="color:red;";
+				resDiv.innerHTML="User alread registered";
+				registeredUser = true;
+			}
+			else
+			{
+				resDiv.style="color:green;";
+				resDiv.innerHTML="OK";
+				registeredUser = false;
+			}
+		}
+	}
+
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
 	}
-	function validate(){
-		signupSubmit();
-		checkEmail();
-	}
-	function signupSubmit() {
 
-		var blankFlag = false;
+	function signupSubmit() {		
 		var boxes = document.getElementsByTagName("input");
 		for (i = 0; i < boxes.length; i++) {
 			if ((boxes[i].type == "text" || boxes[i].type == "password")
 					&& boxes[i].value == "")
-				blankFlag = true;
+				allFieldsBlank = true;
 		}
-		console.log(blankFlag);
+		console.log(allFieldsBlank);
 		var form = document.getElementById("signupForm");
-		if (blankFlag == true) {
-			form.action = "/shopperszone/signup";
-			form.method = "GET";
+		if (allFieldsBlank == true) {
+			form.method="get";
 			alert("Please fill all the details");
-
+			allFieldsBlank=false;
 		}
-		form.submit();
-	}
-	function checkEmail() {
-
-		var email = document.getElementById("txtEmail");
-		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-		if (!filter.test(email.value)) {
-			alert('Please provide a valid email address');
-			email.focus;
-			return false;
+		else if(registeredUser==true)
+		{
+			form.method="get";
+			alert("Please provide unique username");
+			registeredUser=false;
+		}
+		else if(registeredUser==false && allFieldsBlank == false)
+		{
+			form.method="post";
+			form.submit();
 		}
 	}
 </script>
@@ -82,10 +121,12 @@
 			<c:choose>
 				<c:when test="${pageContext.request.userPrincipal.name == null}">
 					<form:form action="saveuser" method="post" modelAttribute="user"
-						id="signupForm" name="sform">
+						id="signupForm">
 						<p>Username:</p>
-						<form:input path="username" type="text" id="txtEmail"
-							placeholder="Enter Email" />
+						<form:input path="username" type="text" placeholder="Enter Email"
+							id="username" onblur="verifyUser();" />
+						<span id="res" style="color: red;"></span>
+						<br />
 						<br>
 						<p>Password:</p>
 						<form:input path="password" type="password"
@@ -100,16 +141,16 @@
 							placeholder="Enter Last Name" />
 						<br>
 						<p>Shipping Address:</p>
-						<form:input path="address" type="text" maxlength="200"
-							placeholder="Enter  Address" value="" />
+						<form:input path="address" type="text"
+							placeholder="Enter  Address" value="" maxlength="200"/>
 						<br>
 						<p>Contact Number:</p>
-						<form:input path="contactNo" type="text" maxlength="10"
+						<form:input path="contactNo" type="text"
 							placeholder="Enter Mobile Number" value="" />
 						<br>
-						<form:input type="submit" value="Sign up" path=""
+						<form:input type="button" value="Sign up" path=""
 							class="btn btn-large btn-block btn-inverse"
-							onclick="validate();" />
+							onclick="javascript:signupSubmit()" />
 					</form:form>
 					<br>
 					<div style="color: red; text-align: center;">${message}</div>
@@ -125,7 +166,9 @@
 	<c:url value="/j_spring_security_logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">
 		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
+			value="${_csrf.token}" id="token"/>	
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.headerName}" id="header"/>	
 	</form>
 </body>
 </html>

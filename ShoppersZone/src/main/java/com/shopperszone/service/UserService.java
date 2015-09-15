@@ -18,6 +18,6 @@ public interface UserService {
 	
 	public List<User> getAllUsers() throws ShoppersZoneException;
 	
-	boolean isAlreadyRegistered(User user) throws ShoppersZoneException;
+	boolean isAlreadyRegistered(String id) throws ShoppersZoneException;
 
 }

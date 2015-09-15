@@ -31,7 +31,7 @@
 	function setEditable() {
 		var boxes = document.getElementsByTagName("input");
 		for (i = 0; i < boxes.length; i++) {
-			if (boxes[i].type == "text" || boxes[i].type == "password")
+			if ((boxes[i].type == "text" || boxes[i].type == "password") && boxes[i].id!== "formTxt")
 				boxes[i].readOnly = false;
 		}
 	}
@@ -79,17 +79,17 @@
 				<form:input path="username" type="text" readonly="true" id="formTxt" />
 				<p>Password:</p>
 				<form:input path="password" type="password" readonly="true"
-					id="formTxt" />
+					 />
 				<p>First Name :</p>
 				<form:input path="firstName" type="text" readonly="true"
-					id="formTxt" />
+					 />
 				<p>Last Name:</p>
-				<form:input path="lastName" type="text" readonly="true" id="formTxt" />
+				<form:input path="lastName" type="text" readonly="true"/>
 				<p>Address:</p>
-				<form:input path="address" type="text" maxlength="200" readonly="true" id="formTxt" />
+				<form:input path="address" type="text" maxlength="200" readonly="true"/>
 				<p>Contact No:</p>
 				<form:input path="contactNo" type="text" maxlength="10" readonly="true"
-					id="formTxt" />
+					 />
 				<p></p>
 				<form:input type="button" value="Edit" path=""
 					class="btn btn-large btn-block btn-inverse" id="button"

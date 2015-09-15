@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ import com.shopperszone.service.UserService;
 @SuppressWarnings("unchecked")
 @Controller
 public class ViewController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
 
 	@Autowired
 	private UserService userService;
@@ -47,7 +51,6 @@ public class ViewController {
 	@ModelAttribute("isAdmin")
 	public boolean isAdminActive()
 	{
-		System.out.println("isAdmin called");
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(userName.equals("anonymousUser"))
 			return false;		
@@ -61,7 +64,10 @@ public class ViewController {
 				if(userRole.getRole().equals("ROLE_ADMIN"))
 					return true;
 			}
-		} catch (ShoppersZoneException e) {}		
+		} catch (ShoppersZoneException e) 
+		{
+			LOG.debug("Error {}",e.getMessage());
+		}		
 		return false;
 	}
 
@@ -72,7 +78,8 @@ public class ViewController {
 			model.addAttribute("categories", itemService.getAllCategories());
 		} catch (ShoppersZoneException e) {
 			model.addAttribute("message","Not able to fetch categories");
-			model.addAttribute("categories", new ArrayList<String>(0));			
+			model.addAttribute("categories", new ArrayList<String>(0));		
+			LOG.debug("Error {}",e.getMessage());
 		}
 		return "home";
 	}
@@ -85,7 +92,7 @@ public class ViewController {
 		}
 		catch (ShoppersZoneException e) {
 			model.addAttribute("items", null);
-			e.printStackTrace();
+			LOG.debug("Error {}",e.getMessage());
 		}
 		return "items";
 	}
@@ -95,10 +102,11 @@ public class ViewController {
 		try {
 		model.addAttribute("categories", itemService.getAllCategories());
 		model.addAttribute("items", itemService.getCategorisedItems(category));
+		LOG.info( "items---- "+itemService.getCategorisedItems(category));
 		}
 		catch (ShoppersZoneException e) {
 			model.addAttribute("items", null);
-			e.printStackTrace();
+			LOG.debug("Error {}",e.getMessage());
 		}
 		return "items";
 	}
@@ -119,11 +127,9 @@ public class ViewController {
 			User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());		
 			model.addAttribute("orders", orderService.getMyOrders(user));
 			return "orders";
-		} catch (ShoppersZoneException e) {
-			
+		} catch (ShoppersZoneException e) {			
 			redirect.addFlashAttribute("message", "Error fetching past orders.. Please try again later!!");
-			e.printStackTrace();
-			
+			LOG.debug("Error {}",e.getMessage());			
 		}
 		return "redirect:/account";
 	}
@@ -135,8 +141,13 @@ public class ViewController {
 	}	
 
 	@RequestMapping(value = "/flushcache", method = RequestMethod.GET)
-	public String flushTheCache(HttpServletRequest request) {
-		cacheService.flushCache();
+	public String flushTheCache(HttpServletRequest request, RedirectAttributes attributes) {
+		try {
+			cacheService.flushCache();
+		} catch (ShoppersZoneException e) {
+			LOG.debug("Error {}",e.getMessage());
+		}
+		attributes.addFlashAttribute("message", "Redis server is down");
 		return "redirect:" + request.getHeader("Referer");
 	}	
 }

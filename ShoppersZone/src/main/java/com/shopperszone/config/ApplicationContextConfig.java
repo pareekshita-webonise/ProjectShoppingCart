@@ -29,7 +29,7 @@ public class ApplicationContextConfig {
 	    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 	    dataSource.setUrl("jdbc:mysql://localhost:3306/shopping_cart");
 	    dataSource.setUsername("root");
-	    dataSource.setPassword(""); 
+	    dataSource.setPassword("root"); 
 	    return dataSource;
 	}
 	@Autowired
@@ -39,9 +39,10 @@ public class ApplicationContextConfig {
 	    sessionBuilder.addAnnotatedClasses(Item.class);
 	    sessionBuilder.addAnnotatedClasses(Order.class);
 	    sessionBuilder.addAnnotatedClasses(User.class);
-	    sessionBuilder.addAnnotatedClasses(UserRole.class);	    
+	    sessionBuilder.addAnnotatedClasses(UserRole.class);
 	    return sessionBuilder.buildSessionFactory();
 	}
+	@SuppressWarnings("unused")
 	private Properties getHibernateProperties() {
 	    Properties properties = new Properties();
 	    properties.put("hibernate.show_sql", "true");

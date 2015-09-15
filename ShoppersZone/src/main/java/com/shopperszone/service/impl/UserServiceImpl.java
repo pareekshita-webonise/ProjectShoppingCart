@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isAlreadyRegistered(User registeredUser) throws ShoppersZoneException {
-		User user = userDao.findByUserName(registeredUser.getUsername());
+	public boolean isAlreadyRegistered(String registeredUser) throws ShoppersZoneException {
+		User user = userDao.findByUserName(registeredUser);
 		return ((user == null) ? false : true);
 	}
 
