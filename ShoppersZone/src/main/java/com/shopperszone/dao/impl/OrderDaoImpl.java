@@ -15,7 +15,7 @@ import com.shopperszone.dao.OrderDao;
 import com.shopperszone.model.Item;
 import com.shopperszone.model.Order;
 import com.shopperszone.model.User;
-import com.shopperszone.utility.DateUtility;
+import com.shopperszone.utility.DateFormatter;
 
 @SuppressWarnings("unchecked")
 @Repository
@@ -33,7 +33,7 @@ public class OrderDaoImpl implements OrderDao {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			order = new Order();
-			order.setDate(DateUtility.getCurrentDate());
+			order.setDate(DateFormatter.getCurrentDate());
 			order.setUser(user);
 			order.setItems(items);
 			for (Item item : items) {

@@ -22,6 +22,7 @@ import com.shopperszone.model.User;
 import com.shopperszone.service.ItemService;
 import com.shopperszone.service.OrderService;
 import com.shopperszone.service.UserService;
+import com.shopperszone.utility.SendMail;
 
 @SuppressWarnings("unchecked")
 @Controller
@@ -64,6 +65,8 @@ public class CartController {
 			User user = userService.getUserByName(SecurityContextHolder.getContext().getAuthentication().getName());
 			Order order;
 			order = orderService.placeOrder(user, cartItems);
+			SendMail mail = new SendMail();
+			mail.sendMail(order);
 			session.setAttribute("myCart", null);
 			model.addAttribute("order", order);
 			return "order";

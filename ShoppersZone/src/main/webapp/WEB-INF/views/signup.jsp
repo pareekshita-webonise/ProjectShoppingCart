@@ -12,7 +12,7 @@
 <link href="${mainCss}" rel="stylesheet" />
 <title>Sign up</title>
 
-<script language="javascript">
+<script type="text/javascript">
 	reqObj = null;
 	var allFieldsBlank = false;
 	var registeredUser = false;

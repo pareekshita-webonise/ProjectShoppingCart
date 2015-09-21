@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,27 +78,19 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/check", method=RequestMethod.POST)
-	public @ResponseBody String home1(Model model, @RequestParam(value = "id", required = false) String id) throws ShoppersZoneException {
-		return (userService.isAlreadyRegistered(id)?"FAIL":"SUCCESS");
+	public @ResponseBody String home1(Model model, @RequestParam(value = "id", required = false) String id){
+		String res = "";
+		try {
+			res = (userService.isAlreadyRegistered(id)?"FAIL":"SUCCESS");
+		} catch (ShoppersZoneException e) {
+			LOG.debug("Error {} "+e);
+		}
+		return res;
 	}
 
 	@RequestMapping(value = "/saveuser", method = RequestMethod.POST)
 	public String saveUser(@ModelAttribute("user") User user, Model model) {
-		/*boolean isRegistered=false;
-		try
-		{
-			isRegistered = userService.isAlreadyRegistered(user);
-		}
-		catch(ShoppersZoneException e){
-			
-		}
-		
-		if(isRegistered)
-		{
-			model.addAttribute("message", "Username already exist.");
-			return "signup";
-		}*/
-		
+	
 		try {
 			userService.addUser(user);
 			UserDetails userDetails = userDetailsSvc.loadUserByUsername(user.getUsername());
